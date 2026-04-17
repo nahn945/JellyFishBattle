@@ -9,7 +9,7 @@ signal damage_end(id : int)
 @export var input_left : String
 @export var input_right : String
 
-const ROT_SPEED : float = 2.0
+const ROT_SPEED : float = 5.0
 const JUMP_SPEED : float = 800.0
 const JUMP_CHARGE : float = 0.01
 
