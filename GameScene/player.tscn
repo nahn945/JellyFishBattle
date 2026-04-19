@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://boxsyky63r2wm" path="res://img/jelly_boost.png" id="2_aq836"]
 [ext_resource type="Texture2D" uid="uid://brt3orowjxlc4" path="res://img/jelly_charge.png" id="3_83byh"]
 [ext_resource type="Texture2D" uid="uid://duitphf4l335w" path="res://img/jelly_normal.png" id="4_tdson"]
-[ext_resource type="Texture2D" uid="uid://5iv6t3oref1k" path="res://img/defeat_effect.png" id="5_aq836"]
+[ext_resource type="Texture2D" uid="uid://cieyqkxv668aw" path="res://icon.svg" id="5_aq836"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_onf2v"]
 animations = [{
@@ -33,26 +33,25 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xougl"]
-radius = 11.52443
+[sub_resource type="CircleShape2D" id="CircleShape2D_83byh"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xougl"]
-radius = 6.399994
-height = 23.59999
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tdson"]
+radius = 44.0
+height = 110.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_6ynty"]
-radius = 31.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aq836"]
+size = Vector2(39, 5)
 
 [node name="Player" type="RigidBody2D" unique_id=836404812]
 mass = 0.2
 gravity_scale = 0.05
+center_of_mass_mode = 1
+center_of_mass = Vector2(0, 10)
+contact_monitor = true
+max_contacts_reported = 10
 linear_damp = 2.0
 angular_damp = 10.0
 script = ExtResource("1_u4uou")
-id = 1
-input_up = "key_w"
-input_left = "key_a"
-input_right = "key_d"
 metadata/id = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=864885885]
@@ -60,47 +59,45 @@ scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_onf2v")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1198146266]
-position = Vector2(2, -47)
-scale = Vector2(4, 4)
-shape = SubResource("CircleShape2D_xougl")
+[node name="JumpTimer" type="Timer" parent="." unique_id=716929479]
+wait_time = 0.5
+
+[node name="BoundDome" type="CollisionPolygon2D" parent="." unique_id=1131078412]
+position = Vector2(0.9442809, -83.38125)
+scale = Vector2(1.0222868, 3.3493836)
+polygon = PackedVector2Array(9.836495, 0.41238976, 32.335075, 0.11382675, 55.81185, 4.8908253, 70.48483, 14.743383, 66.57204, 17.729008, 56.79005, 9.369261, 38.20427, 3.9951382, -34.182465, 4.5922623, -53.746445, 9.369261, -62.550236, 18.624695, -65.48484, 13.250572, -53.746445, 5.1893883, -24.400473, 0.41238976)
+one_way_collision_margin = 50.0
+
+[node name="DamageArea" type="Area2D" parent="." unique_id=463371362]
+position = Vector2(1, -29)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=1007347761]
+shape = SubResource("CircleShape2D_83byh")
 metadata/_edit_lock_ = true
 
-[node name="Attack1" type="Area2D" parent="." unique_id=1825400306]
-position = Vector2(0, -53)
-collision_layer = 2
-collision_mask = 2
-metadata/power = 0.5
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack1" unique_id=870858037]
-position = Vector2(1.9999999, 114)
-scale = Vector2(5, 5)
-shape = SubResource("CapsuleShape2D_xougl")
-
-[node name="Damage" type="Area2D" parent="." unique_id=1941389149]
-position = Vector2(1, -51)
-collision_layer = 2
-collision_mask = 2
-metadata/_edit_lock_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Damage" unique_id=434181322]
-shape = SubResource("CircleShape2D_6ynty")
-metadata/_edit_lock_ = true
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=198573590]
-emitting = false
+[node name="Sprite2D" type="Sprite2D" parent="DamageArea" unique_id=2113594536]
+scale = Vector2(0.13, 0.13)
 texture = ExtResource("5_aq836")
-lifetime = 0.8
-one_shot = true
-randomness = 0.3
-emission_shape = 1
-emission_sphere_radius = 0.01
-direction = Vector2(0, -1)
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 300.0
-initial_velocity_max = 800.0
 metadata/_edit_lock_ = true
 
-[connection signal="area_entered" from="Damage" to="." method="_on_area_entered"]
-[connection signal="area_exited" from="Damage" to="." method="_on_area_exited"]
+[node name="AttackAreaRear" type="Area2D" parent="." unique_id=1524039724 groups=["attack_rear"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackAreaRear" unique_id=1800151297]
+position = Vector2(1, 38)
+shape = SubResource("CapsuleShape2D_tdson")
+
+[node name="AttackAreaFront" type="Area2D" parent="." unique_id=245903120 groups=["attack_front"]]
+position = Vector2(0, -80)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackAreaFront" unique_id=981839416]
+position = Vector2(-0.5, -6.5)
+shape = SubResource("RectangleShape2D_aq836")
+metadata/_edit_lock_ = true
+
+[node name="EffectTimer" type="Timer" parent="." unique_id=26205444]
+ignore_time_scale = true
+
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="." to="." method="_on_body_shape_exited"]
+[connection signal="area_entered" from="DamageArea" to="." method="_on_damage_area_area_entered"]
+[connection signal="area_exited" from="DamageArea" to="." method="_on_damage_area_area_exited"]
