@@ -114,22 +114,17 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 100
 text = "3"
 
-[node name="Player1" parent="." unique_id=836404812 instance=ExtResource("2_xougl")]
-position = Vector2(409, 407)
-
-[node name="Player2" parent="." unique_id=2070892939 instance=ExtResource("2_xougl")]
-position = Vector2(1244, 448)
-id = 2
-input_up = "ui_up"
-input_left = "ui_left"
-input_right = "ui_right"
-
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1353663748]
 position = Vector2(960, 540)
 
+[node name="Player1" parent="." unique_id=836404812 instance=ExtResource("2_xougl")]
+position = Vector2(369, 510)
+input_up = "key_w"
+input_left = "key_a"
+input_right = "key_d"
+
+[node name="Player2" parent="." unique_id=824728934 instance=ExtResource("2_xougl")]
+position = Vector2(1606, 498)
+
 [connection signal="pressed" from="CanvasLayer/Result/VBoxContainer/ResButton" to="." method="restart"]
 [connection signal="pressed" from="CanvasLayer/Result/VBoxContainer/QuitButton" to="." method="back_to_title"]
-[connection signal="damage_end" from="Player1" to="." method="end_damage"]
-[connection signal="damaged" from="Player1" to="." method="set_damage"]
-[connection signal="damage_end" from="Player2" to="." method="end_damage"]
-[connection signal="damaged" from="Player2" to="." method="set_damage"]
